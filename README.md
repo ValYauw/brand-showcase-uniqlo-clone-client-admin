@@ -1,8 +1,35 @@
-# React + Vite
+# Uniqlo Brand Showcase Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Example Content Management System (CMS) web application for a brand showcase web and mobile application (clone of the Uniqlo website and mobile app). Use alongside the server application [brand-showcase-uniqlo-clone-server](https://github.com/ValYauw/brand-showcase-uniqlo-clone-server).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ - OAuth
+ - CRUD (Create, Read, Update, Destroy)
+
+## Tech Stack 
+
+ - Vite (development platform)
+ - React
+ - Redux, Redux Thunks
+ - MUI UI Library
+ - Axios (to fetch data from GraphQL server)
+
+## Configuration
+
+Change the URL of the back-end API entrypoint in `config/api.js`.
+
+## Demo
+
+### Login Screen
+![Login Screen](demo-screenshots/login.PNG)
+
+### Admin CMS
+![Admin CMS](demo-screenshots/cms.PNG)
+
+### Create, Update, and Destroy
+![Add New Product](demo-screenshots/add-product.PNG)
+
+![Edit Existing Product](demo-screenshots/edit-product.PNG)
+
+![Delete Existing Product](demo-screenshots/delete-product-confirm.PNG)
