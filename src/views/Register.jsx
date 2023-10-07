@@ -1,5 +1,4 @@
-import useFormInput from '../hooks/useFormInput';
-// import { useRegister } from '../hooks/useLoginRegister';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { registerNewUser } from '../stores/actions/register';
@@ -13,8 +12,20 @@ import Spinner from '../components/Spinner';
 
 export default function Register() {
 
-  const emailFormProps = useFormInput('');
-  const passwordFormProps = useFormInput('');
+  const [registerFormInput, setRegisterFormInput] = useState({
+    username: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+    address: ''
+  })
+
+  const handleChange = (e) => {
+    setRegisterFormInput({
+      ...registerFormInput,
+      [e.target.name]: e.target.value
+    })
+  }
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,19 +35,17 @@ export default function Register() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      await dispatch(registerNewUser(
-        emailFormProps.value,
-        passwordFormProps.value
-      ));
+      await dispatch(registerNewUser(registerFormInput));
       dispatch(showNotificationSnackbar({
         type: 'success',
         message: 'New user has been registered. Please let them log in from another machine.'
       }));
       navigate('/');
     } catch(err) {
+      const errors = err?.response?.data?.errors;
       dispatch(showNotificationSnackbar({
         type: 'error',
-        message: err.message,
+        message: errors ? errors[0].message : 'Internal Server Error',
       }));
     }
   };
@@ -57,7 +66,17 @@ export default function Register() {
 
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
-          {...emailFormProps}
+          value={registerFormInput.username}
+          onChange={handleChange}
+          margin="normal"
+          required
+          fullWidth
+          label="Username"
+          name="username"
+        />
+        <TextField
+          value={registerFormInput.email}
+          onChange={handleChange}
           margin="normal"
           required
           fullWidth
@@ -65,13 +84,30 @@ export default function Register() {
           name="email"
         />
         <TextField
-          {...passwordFormProps}
+          value={registerFormInput.password}
+          onChange={handleChange}
           margin="normal"
           required
           fullWidth
           label="Password"
           name="password"
           type="password"
+        />
+        <TextField
+          value={registerFormInput.phoneNumber}
+          onChange={handleChange}
+          margin="normal"
+          fullWidth
+          label="Phone Number"
+          name="phoneNumber"
+        />
+        <TextField
+          value={registerFormInput.address}
+          onChange={handleChange}
+          margin="normal"
+          fullWidth
+          label="Address"
+          name="address"
         />
         <Button
           type="submit"

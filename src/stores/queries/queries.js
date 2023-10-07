@@ -15,7 +15,7 @@ export const GQL_LOGIN = ({ email, password }) => ({
   }
 })
 
-export const GQL_REGISTER = ({ username, email, password }) => ({
+export const GQL_REGISTER = ({ username, email, password, phoneNumber, address }) => ({
   operationName: 'RegisterStaff',
   query: `
     mutation RegisterStaff($registrationDetails: RegistrationDetails) {
@@ -28,7 +28,9 @@ export const GQL_REGISTER = ({ username, email, password }) => ({
     registrationDetails: {
       username: username,
       email: email,
-      password: password
+      password: password,
+      phoneNumber: phoneNumber,
+      address: address
     }
   }
 })
@@ -121,30 +123,30 @@ export const GQL_GET_PRODUCT = (id) => ({
 })
 
 export const GQL_ADD_PRODUCT = ({name, description, price, mainImg, categoryId, images}) => ({
-  operationName: 'AddProduct',
+  operationName: 'Mutation',
   query: `
-    mutation AddProduct() {
-      newProduct(NewProduct: $newProduct) {
+    mutation Mutation($newProduct: NewProduct) {
+      addProduct(NewProduct: $newProduct) {
         id
       }
     }
   `,
   variables: {
     newProduct: {
-      name,
-      description,
-      price,
-      mainImg,
-      categoryId,
-      images
+      name: name,
+      description: description,
+      price: price ? +price : null,
+      mainImg: mainImg,
+      categoryId: categoryId ? +categoryId : null,
+      images: images
     }
   }
 })
 
 export const GQL_EDIT_PRODUCT = ({id, name, description, price, mainImg, categoryId, images}) => ({
-  operationName: 'UpdateProduct',
+  operationName: 'Mutation',
   query: `
-    mutation UpdateProduct() {
+    mutation Mutation($newProduct: NewProduct) {
       updateProduct(NewProduct: $newProduct) {
         id
       }
@@ -152,27 +154,27 @@ export const GQL_EDIT_PRODUCT = ({id, name, description, price, mainImg, categor
   `,
   variables: {
     newProduct: {
-      id,
-      name,
-      description,
-      price,
-      mainImg,
-      categoryId,
-      images
+      id: +id,
+      name: name,
+      description: description,
+      price: price ? +price : null,
+      mainImg: mainImg,
+      categoryId: categoryId ? +categoryId : null,
+      images: images
     }
   }
 })
 
 export const GQL_DELETE_PRODUCT = (id) => ({
-  operationName: 'DeleteProduct',
+  operationName: 'Mutation',
   query: `
-    mutation DeleteProduct($id: Int!) {
+    mutation Mutation($id: Int!) {
       deleteProduct(id: $id) {
         message
       }
     }
   `,
   variables: {
-    id: id
+    id: +id
   }
 })

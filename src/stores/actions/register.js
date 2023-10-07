@@ -24,20 +24,25 @@ const registerUserLoading = (isLoading = true) => {
     payload: isLoading 
   } 
 }
-export const registerNewUser = (email, password) => {
+export const registerNewUser = ({username, email, password, phoneNumber, address}) => {
   return async (dispatch, getState) => {
     dispatch(registerUserLoading(true));
     try {
+      if (!username) throw {name: 'BadCredentials', message: 'Username is required'};
       if (!email) throw {name: 'BadCredentials', message: 'Email is required'};
       if (!password) throw {name: 'BadCredentials', message: 'Password is required'};
       console.log('Submitting registration...');
-      const response = await axios({
+      await axios({
         url: BASE_URL, 
         method: 'POST',
+        data: GQL_REGISTER({ 
+          username, email, password, 
+          phoneNumber: phoneNumber || null, 
+          address: address || null
+        }),
         headers: {
-          'Content-Type': 'application/json'
-        },
-        data: GQL_REGISTER({ email, password })
+          access_token: localStorage.getItem('access_token')
+        }
       });
       dispatch(registerUserSuccess());
     } catch(err) {

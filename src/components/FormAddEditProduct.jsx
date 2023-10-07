@@ -72,9 +72,10 @@ export default function FormAddEditProduct({ afterSubmit }) {
       .then(() => dispatch(fetchProductsCMS()))
       .catch((err) => {
         handleUnauthorizedToken(err);
+        const errors = err?.response?.data?.errors;
         dispatch(showNotificationSnackbar({
           type: 'error',
-          message: err?.errors[0] || err.message
+          message: errors ? errors[0].message : 'Internal Server Error',
         }));
       });
     afterSubmit();

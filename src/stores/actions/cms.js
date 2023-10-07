@@ -63,7 +63,6 @@ export const fetchProductsCMS = () => {
         }
       })
       const { data: { data: {cmsProducts} = {} } = {} } = response;
-      console.log(cmsProducts);
       dispatch(fetchProductsSuccess(cmsProducts));
     } catch(err) {
       dispatch(fetchProductsReject());
@@ -105,7 +104,6 @@ export const getProductById = (id) => {
         data: GQL_GET_PRODUCT(id)
       });
       const { data: { data: {product} = {} } = {} } = response;
-      console.log(response);
       dispatch(getOneProductSuccess(product));
     } catch(err) {
       dispatch(getOneProductReject());
@@ -144,11 +142,10 @@ export const addProduct = (payload) => {
   return async (dispatch, getState) => {
     dispatch(addProductLoading(true));
     try {
-      await axios({
+      const response = await axios({
         url: BASE_URL,
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
           "access_token": localStorage.getItem('access_token')
         },
         data: GQL_ADD_PRODUCT(payload)
@@ -198,7 +195,6 @@ export const updateProduct = (payload) => {
         url: BASE_URL,
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
           "access_token": localStorage.getItem('access_token')
         },
         data: GQL_EDIT_PRODUCT(payload)
@@ -237,7 +233,6 @@ export const deleteProduct = (id) => {
         url: BASE_URL,
         method: 'POST',
         headers: {
-          "Content-Type": "application/json",
           "access_token": localStorage.getItem('access_token')
         },
         data: GQL_DELETE_PRODUCT(id)

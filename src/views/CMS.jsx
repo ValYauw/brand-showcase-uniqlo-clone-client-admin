@@ -36,15 +36,21 @@ export default function CMS() {
     dispatch(fetchProductsCMS())
       .catch(err => {
         handleUnauthorizedToken(err);
-        dispatch(showNotificationSnackbar(
-          {type: 'error', message: err.message}
-          ));
+        const errors = err?.response?.data?.errors;
+        dispatch(showNotificationSnackbar({
+          type: 'error',
+          message: errors ? errors[0].message : 'Internal Server Error',
+        }));
       })
       
     dispatch(fetchCategories())
-      .catch(err => dispatch(showNotificationSnackbar(
-        {type: 'error', message: err.message}
-        )));
+      .catch(err => {
+        const errors = err?.response?.data?.errors;
+        dispatch(showNotificationSnackbar({
+          type: 'error',
+          message: errors ? errors[0].message : 'Internal Server Error',
+        }));
+      });
   }, []);
   const { products, isLoading } = useSelector(state => state.cms);
   // const navigate = useNavigate();
@@ -83,17 +89,23 @@ export default function CMS() {
         dispatch(fetchProductsCMS())
           .catch(err => {
             handleUnauthorizedToken(err);
-            dispatch(showNotificationSnackbar(
-              {type: 'error', message: err.message}
-            ));
+            const errors = err?.response?.data?.errors;
+            dispatch(showNotificationSnackbar({
+              type: 'error',
+              message: errors ? errors[0].message : 'Internal Server Error',
+            }));
           })
         dispatch(showNotificationSnackbar(
           {type: 'success', message: 'Successfully deleted'}
         ))
       })
-      .catch(err => dispatch(showNotificationSnackbar(
-        {type: 'error', message: err.message}
-        )));
+      .catch(err => {
+        const errors = err?.response?.data?.errors;
+        dispatch(showNotificationSnackbar({
+          type: 'error',
+          message: errors ? errors[0].message : 'Internal Server Error',
+        }));
+      });
     setDeleteId(null);
     setOpenConfirmationDialog(false);
     dispatch(fetchProductsCMS())

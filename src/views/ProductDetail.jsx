@@ -21,9 +21,13 @@ export default function ProductDetail() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getProductById(id))
-      .catch(err => dispatch(showNotificationSnackbar(
-        {type: 'error', message: err.message}
-        )));
+      .catch(err => {
+        const errors = err?.response?.data?.errors;
+        dispatch(showNotificationSnackbar({
+          type: 'error',
+          message: errors ? errors[0].message : 'Internal Server Error',
+        }));
+      });
   }, []);
 
   const { product, isLoading } = useSelector(state => state.product);

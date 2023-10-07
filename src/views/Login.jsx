@@ -33,10 +33,10 @@ export default function Login() {
       }));
       navigate('/');
     } catch(err) {
-      // console.log(err);
+      const errors = err?.response?.data?.errors;
       dispatch(showNotificationSnackbar({
         type: 'error',
-        message: err.message,
+        message: errors ? errors[0].message : 'Internal Server Error',
       }));
     }
   };

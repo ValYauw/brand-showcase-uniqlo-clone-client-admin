@@ -69,7 +69,7 @@ function ResponsiveAppBar() {
             message: 'You have been logged out.'
           }))
           dispatch(setLoggedInState());
-          navigate('/');
+          navigate('/login');
         }}
       >
         <a>Logout</a>
